@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,30 @@ import com.ielec.fabrica.entities.Articulo;
 import com.ielec.fabrica.exceptions.MyException;
 
 import com.ielec.fabrica.repositories.ArticuloRepositorio;
+import com.ielec.fabrica.repositories.FabricaRepositorio;
 
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ArticuloServicio {
 
-    @Autowired
+    
     private ArticuloRepositorio articuloRepositorio;
+
+    private AtomicInteger atomicInteger;
+
+    private FabricaRepositorio fabricaRepositorio;
+
+    
+
+    public ArticuloServicio(ArticuloRepositorio articuloRepositorio, FabricaRepositorio fabricaRepositorio) {
+       
+       this.articuloRepositorio = articuloRepositorio;
+       this.fabricaRepositorio = fabricaRepositorio;
+       Integer maximo= articuloRepositorio.buscarMaximo();
+
+       this.atomicInteger = new AtomicInteger(maximo+1);
+    }
 
     @Transactional
     public void crearArticulo(String nombreArticulo , String descripcionArticulo) throws MyException {
@@ -29,6 +46,7 @@ public class ArticuloServicio {
         Articulo articulo = new Articulo();// Instancio un objeto del tipo Articulo
         articulo.setNombreArticulo(nombreArticulo);// Seteo el atributo, con el valor recibido como parámetro
         articulo.setDescripcionArticulo(descripcionArticulo);
+        articulo.setNroArticulo(atomicInteger.getAndIncrement());
 
         articuloRepositorio.save(articulo); // Persisto el dato en mi BBDD
     }

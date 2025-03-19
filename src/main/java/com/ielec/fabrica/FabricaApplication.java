@@ -22,7 +22,7 @@ public class FabricaApplication {
 		try {
 			ApplicationContext context = SpringApplication.run(FabricaApplication.class, args);
 			ArticuloServicio articuloServicio = context.getBean(ArticuloServicio.class);
-			articuloServicio.crearArticulo("celular", "aparato electrónico");
+			articuloServicio.crearArticulo("laptop", "aparato electrónico");
 			
 			//System.out.println("Mi artículo es: " + articuloServicio.getOne(null));
 		} catch (MyException e) {

@@ -31,7 +31,7 @@ public class Articulo {
 
    
 
-    private static final AtomicInteger atomicInteger = new AtomicInteger(0);
+    
     @Column(name="nro_articulo",unique = true)
     private Integer nroArticulo;
     // Integer. Código de identificación interno de un producto.
@@ -48,6 +48,6 @@ public class Articulo {
     private Fabrica fabrica;// Representará un dato de tipo Fábrica, por lo que deberá establecerse la relación correspondiente.
 
     public Articulo() {
-        this.nroArticulo = atomicInteger.incrementAndGet();
+       // this.nroArticulo = atomicInteger.incrementAndGet();
     }
 }
