@@ -18,7 +18,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @NoArgsConstructor
-@Entity //@Table(name = "fabrica")
+@Entity //
+@Table(name = "fabrica")
 public class Fabrica {
 
     @Id

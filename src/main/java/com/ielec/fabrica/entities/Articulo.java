@@ -20,7 +20,6 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
-@NoArgsConstructor
 @Entity
 @Table(name = "articulo")
 public class Articulo {
@@ -30,7 +29,10 @@ public class Articulo {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private UUID idArticulo; // Autogenerado.
 
+   
+
     private static final AtomicInteger atomicInteger = new AtomicInteger(0);
+    @Column(name="nro_articulo",unique = true)
     private Integer nroArticulo;
     // Integer. Código de identificación interno de un producto.
     // Código correlativo único y autogenerado. Debe iniciar en 1, y si se agrega
@@ -45,4 +47,7 @@ public class Articulo {
     @JoinColumn(name = "fabrica_id") 
     private Fabrica fabrica;// Representará un dato de tipo Fábrica, por lo que deberá establecerse la relación correspondiente.
 
+    public Articulo() {
+        this.nroArticulo = atomicInteger.incrementAndGet();
+    }
 }

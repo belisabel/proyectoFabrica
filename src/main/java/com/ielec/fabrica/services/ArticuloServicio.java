@@ -41,17 +41,7 @@ public class ArticuloServicio {
         return articulos;
     }
 
-    // @Transactional
-    // public void modificarArticulo(String nombre, String id) throws MyException {
-    //     validar(nombre);
-    //     Optional<Articulo> respuesta = ArticuloRepositorio.findById(id);
-    //     if (respuesta.isPresent()) {
-    //         Articulo Articulo = respuesta.get();
-
-    //         Articulo.setNombreArticulo(nombre);
-    //         ArticuloRepositorio.save(Articulo);
-    //     }
-    // }
+    
 
     private void validar(String nombreArticulo , String descripcionArticulo) throws MyException {
         if (nombreArticulo.isEmpty() || nombreArticulo == null) {
@@ -65,6 +55,19 @@ public class ArticuloServicio {
         @Transactional(readOnly = true)
     public Articulo getOne(UUID id) {
         return articuloRepositorio.getReferenceById(id);
+    }
+    @Transactional
+    public void modificarArticulo(String nombreArticulo , String descripcionArticulo, UUID id) throws MyException {
+
+        validar(nombreArticulo,descripcionArticulo);
+        Optional<Articulo> respuesta = articuloRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Articulo articulo = respuesta.get();
+
+            articulo.setNombreArticulo(nombreArticulo);
+            articulo.setDescripcionArticulo(descripcionArticulo);
+            articuloRepositorio.save(articulo);
+        }
     }
 
 
