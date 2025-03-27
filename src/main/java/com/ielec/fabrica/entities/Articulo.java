@@ -1,7 +1,6 @@
 package com.ielec.fabrica.entities;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@NoArgsConstructor
 @ToString
 @Setter
 @Getter
@@ -46,8 +46,4 @@ public class Articulo {
     @ManyToOne
     @JoinColumn(name = "fabrica_id") 
     private Fabrica fabrica;// Representará un dato de tipo Fábrica, por lo que deberá establecerse la relación correspondiente.
-
-    public Articulo() {
-       // this.nroArticulo = atomicInteger.incrementAndGet();
-    }
 }

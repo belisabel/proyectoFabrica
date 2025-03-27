@@ -28,7 +28,8 @@ public class UsuarioServicio {
         Usuario usuario = new Usuario();
         usuario.setEmail(email);
         usuario.setNombre(nombre);
-        usuario.setPassword("default");
+        usuario.setApellido(apellido);
+        usuario.setPassword(password);
         //usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         // usuario.setPassword(password);
         usuario.setRol(Rol.USER);

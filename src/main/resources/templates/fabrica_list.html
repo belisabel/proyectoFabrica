@@ -1,0 +1,43 @@
+<!-- fabrica_list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Fábricas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Para los iconos -->
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Gestión de Fábricas</h1>
+        </nav>
+    </header>
+    <main>
+        <h2>Lista de Fábricas</h2>
+        <table class="lista-articulos-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fabrica : ${fabricas}">
+                    <td th:text="${fabrica.idFabrica}"></td>
+                    <td th:text="${fabrica.nombreFabrica}"></td>
+                    <td>
+                        <a th:href="@{/fabrica/modificar/__${fabrica.idFabrica}__}" class="btn btn-edit">Modificar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 Gestión de Fábricas</p>
+    </footer>
+</body>
+</html>

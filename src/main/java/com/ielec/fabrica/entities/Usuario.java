@@ -29,10 +29,13 @@ public class Usuario {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private UUID idUsuario;
+
     @Column(nullable = false)
     private String nombre;
+
     @Column(nullable = false, unique = true)
     private String email;
+    
     @Column(nullable = false)
     private String apellido;
 

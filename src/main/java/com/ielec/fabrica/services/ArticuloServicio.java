@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.ielec.fabrica.entities.Articulo;
+import com.ielec.fabrica.entities.Fabrica;
 import com.ielec.fabrica.exceptions.MyException;
 
 import com.ielec.fabrica.repositories.ArticuloRepositorio;
@@ -40,13 +41,15 @@ public class ArticuloServicio {
     }
 
     @Transactional
-    public void crearArticulo(String nombreArticulo , String descripcionArticulo) throws MyException {
+    public void crearArticulo(String nombreArticulo , String descripcionArticulo,UUID idFabrica) throws MyException {
 
-        validar(nombreArticulo,descripcionArticulo);
+        validar(nombreArticulo,descripcionArticulo,idFabrica);
         Articulo articulo = new Articulo();// Instancio un objeto del tipo Articulo
         articulo.setNombreArticulo(nombreArticulo);// Seteo el atributo, con el valor recibido como parámetro
         articulo.setDescripcionArticulo(descripcionArticulo);
         articulo.setNroArticulo(atomicInteger.getAndIncrement());
+        Fabrica fabrica = fabricaRepositorio.findById(idFabrica).get();
+        articulo.setFabrica(fabrica);
 
         articuloRepositorio.save(articulo); // Persisto el dato en mi BBDD
     }
@@ -61,13 +64,17 @@ public class ArticuloServicio {
 
     
 
-    private void validar(String nombreArticulo , String descripcionArticulo) throws MyException {
+    private void validar(String nombreArticulo , String descripcionArticulo,UUID idFabrica) throws MyException {
         if (nombreArticulo.isEmpty() || nombreArticulo == null) {
             throw new MyException("el nombre Articulo no puede ser nulo o estar vacío");
         }
         if (descripcionArticulo.isEmpty() || descripcionArticulo == null) {
             throw new MyException("la descripcion Articulo no puede ser nulo o estar vacío");
         }
+        if ((idFabrica.toString()).isEmpty() || idFabrica == null) {
+            throw new MyException("La Fabrica no puede ser nula o estar vacia");
+        }
+        
     }
 
         @Transactional(readOnly = true)
@@ -75,15 +82,23 @@ public class ArticuloServicio {
         return articuloRepositorio.getReferenceById(id);
     }
     @Transactional
-    public void modificarArticulo(String nombreArticulo , String descripcionArticulo, UUID id) throws MyException {
+    public void modificarArticulo(String nombreArticulo , String descripcionArticulo, UUID idFabrica,UUID idArticulo) throws MyException {
 
-        validar(nombreArticulo,descripcionArticulo);
-        Optional<Articulo> respuesta = articuloRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Articulo articulo = respuesta.get();
+        validar(nombreArticulo,descripcionArticulo,idFabrica);
+        Optional<Articulo> respuestaArticulo = articuloRepositorio.findById(idArticulo);
+        Optional<Fabrica> respuestaFabrica = fabricaRepositorio.findById(idFabrica);
+
+        Fabrica fabrica = new Fabrica();
+
+        if (respuestaFabrica.isPresent()) {
+            fabrica = respuestaFabrica.get();
+        }
+        if (respuestaArticulo.isPresent()) {
+            Articulo articulo = respuestaArticulo.get();
 
             articulo.setNombreArticulo(nombreArticulo);
             articulo.setDescripcionArticulo(descripcionArticulo);
+            articulo.setFabrica(fabrica);
             articuloRepositorio.save(articulo);
         }
     }
